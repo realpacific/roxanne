@@ -1,6 +1,11 @@
+import os
+
 from dotenv import dotenv_values
 
-__config = dotenv_values(".env")
+__config = {
+    **dotenv_values(".env"),
+    **os.environ,
+}
 
 api_id = __config['API_ID']
 api_hash = __config['API_HASH']

@@ -16,15 +16,99 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Roxanne</a>
     </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-items"
+            aria-controls="nav-items" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav-items">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="/">Messages</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/statistics">Statistics</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 <div class="container mt-2">
-    {% block content %}{% endblock %}
+    <div class="row">
+        <div class="col-3">
+            <div class="card border-primary mb-3">
+                <div class="card-header">Search</div>
+                <div class="card-body">
+                    <form>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="form-label mt-2">Channel Link</label>
+                                <input class="form-control" type="text" id="channelLinkField"
+                                       placeholder="https://t.me/merosharekhabargroup"
+                                       value="https://t.me/merosharekhabargroup">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label mt-2">By</label>
+                                <input class="form-control" type="text" id="byField" placeholder="Prashant">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label mt-2">Keywords</label>
+                                <input class="form-control" type="text" id="keywordsField" placeholder="dogs,cats">
+                            </div>
+
+                            <div class="field-group">
+                                <label class="form-label mt-2">Limit</label>
+                                <input class="form-control" id="limitField" type="number" placeholder="10">
+                            </div>
+
+                            <div class="d-grid mt-2">
+                                <button class="btn btn-lg btn-primary" type="button" id="btnGo">Go!</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-9">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./static/jquery.min.js"></script>
+<script src="./static/boostrap.min.js"></script>
+<script>
+    function buildQuery(url, queryObj) {
+        const addQueryIfNotEmpty = (_url, key, value) => {
+            if (!_url.includes('&') && !_url.includes('?')) {
+                _url = _url + '?';
+            }
+            const query = (value.trim().length > 0) ? `&${key}=${value}` : '';
+            if (query) {
+                return _url + query;
+            }
+            return _url
+        };
+        let newUrl = url;
+        for (let key of Object.keys(queryObj)) {
+            newUrl = addQueryIfNotEmpty(newUrl, key, queryObj[key]);
+        }
+        return newUrl.replace('?&', '?');
+    }
 
+    $('#btnGo').click((e) => {
+        e.preventDefault()
+        const query = {
+            channel_link: $('#channelLinkField').val(),
+            search: $('#keywordsField').val(),
+            filter: '',
+            limit: $('#limitField').val(),
+            by_user: $('#byField').val(),
+        }
+        window.location.href = buildQuery('', query);
+    })
+</script>
 {% block jsscripts %}{% endblock %}
 </body>
 </html>

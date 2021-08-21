@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+{{ super() }}
+{% block content %}
+<div style="max-height: 90vh; overflow-y: scroll">
+    {% if counters|length > 0 %}
+    <div class="accordion">
+        {% for key, value in counters.items() %}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                   data-bs-target="#id_{{key}}" aria-expanded="false" aria-controls="id_{{key}}">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        {{key}}
+                        <span class="badge bg-primary rounded-pill">{{ value | length }}</span>
+                    </div>
+
+                </a>
+            </h2>
+            <div id="id_{{key}}" class="accordion-collapse collapse" aria-labelledby="id_{{key}}" style="">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        {% for item in value %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{item.full_message}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="accordion">
+        <div class="alert alert-dismissible alert-warning">
+            <h4 class="alert-heading">Hello!</h4>
+            <p class="mb-0">Enter some keywords to filter against.</p>
+            <p class="mb-0 text-decoration-underline fw-bold">OR</p>
+            <p class="mb-0">Your search result is empty.</p>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+{% block jsscripts %}
+{% endblock %}

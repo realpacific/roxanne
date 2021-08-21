@@ -1,18 +1,16 @@
-import dataclasses
-from typing import Optional
+from datetime import datetime
+from typing import Optional, List
+
+from pydantic import BaseModel
 
 
-@dataclasses.dataclass
-class Stats:
-    author: str
-    count: int
-    author_id: int
-    role: str
+class MessageMeta(BaseModel):
+    author_id: Optional[int]
     full_message: str
+    time: datetime
 
 
-@dataclasses.dataclass
-class Query:
+class Query(BaseModel):
     channel_link: str
     by_user: Optional[str] = None
     search: Optional[str] = None

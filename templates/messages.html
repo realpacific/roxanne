@@ -1,55 +1,16 @@
 {% extends "index.html" %}
 {{ super() }}
 {% block content %}
-<div class="row">
-    <div class="col-3">
-        <div class="card border-primary mb-3">
-            <div class="card-header">Search</div>
-            <div class="card-body">
-                <form>
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="form-label mt-2">Channel Link</label>
-                            <input class="form-control" type="text" id="channelLinkField"
-                                   placeholder="https://t.me/merosharekhabargroup"
-                                   value="https://t.me/merosharekhabargroup">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label mt-2">By</label>
-                            <input class="form-control" type="text" id="byField" placeholder="Prashant">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label mt-2">Keywords</label>
-                            <input class="form-control" type="text" id="keywordsField" placeholder="dogs,cats">
-                        </div>
-
-                        <div class="field-group">
-                            <label class="form-label mt-2">Limit</label>
-                            <input class="form-control" id="limitField" type="number" placeholder="10">
-                        </div>
-
-                        <div class="d-grid mt-2">
-                            <button class="btn btn-lg btn-primary" type="button" id="btnGo">Go!</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+<div style="max-height: 90vh; overflow-y: scroll">
+    {% for msg in messages %}
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-title">{{msg.author_name}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{msg.time}}</h6>
+            <p class="card-text">{{msg.full_message}}</p>
         </div>
     </div>
-
-    <div class="col-9">
-        <div style="max-height: 90vh; overflow-y: scroll">
-            {% for msg in messages %}
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Prashant</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">1d ago</h6>
-                    <p class="card-text">{{msg}}</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}
 
@@ -77,8 +38,8 @@
         e.preventDefault()
         const query = {
             channel_link: $('#channelLinkField').val(),
-            search: '',
-            filter: $('#keywordsField').val(),
+            search: $('#keywordsField').val(),
+            filter: '',
             limit: $('#limitField').val(),
             by_user: $('#byField').val(),
         }
