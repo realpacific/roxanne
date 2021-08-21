@@ -86,6 +86,14 @@
 <script src="./static/jquery.min.js"></script>
 <script src="./static/boostrap.min.js"></script>
 <script>
+    (function loadValues() {
+        const params = new URLSearchParams(window.location.search);
+        $('#channelLinkField').val(params.get('channel_link'));
+        $('#keywordsField').val(params.get('search'));
+        $('#limitField').val(params.get('limit'));
+        $('#byField').val(params.get('by_user'));
+    })()
+
     function buildQuery(url, queryObj) {
         const addQueryIfNotEmpty = (_url, key, value) => {
             if (!_url.includes('&') && !_url.includes('?')) {
