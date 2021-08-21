@@ -89,8 +89,7 @@
     (function loadValues() {
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
-        console.log(params)
-        if ($('#channelLinkField').val()) {
+        if (params['channel_link']) {
             $('#channelLinkField').val(params['channel_link']);
         }
         $('#keywordsField').val(params['search']);
