@@ -15,35 +15,4 @@
 {% endblock %}
 
 {% block jsscripts %}
-<script>
-    function buildQuery(url, queryObj) {
-        const addQueryIfNotEmpty = (_url, key, value) => {
-            if (!_url.includes('&') && !_url.includes('?')) {
-                _url = _url + '?';
-            }
-            const query = (value.trim().length > 0) ? `&${key}=${value}` : '';
-            if (query) {
-                return _url + query;
-            }
-            return _url
-        };
-        let newUrl = url;
-        for (let key of Object.keys(queryObj)) {
-            newUrl = addQueryIfNotEmpty(newUrl, key, queryObj[key]);
-        }
-        return newUrl.replace('?&', '?');
-    }
-
-    $('#btnGo').click((e) => {
-        e.preventDefault()
-        const query = {
-            channel_link: $('#channelLinkField').val(),
-            search: $('#keywordsField').val(),
-            filter: '',
-            limit: $('#limitField').val(),
-            by_user: $('#byField').val(),
-        }
-        window.location.href = buildQuery('', query);
-    })
-</script>
 {% endblock %}
