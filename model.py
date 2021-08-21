@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class MessageMeta(BaseModel):
     author_id: Optional[int]
-    full_message: str
+    full_message: Optional[str]
     time: datetime
 
 
