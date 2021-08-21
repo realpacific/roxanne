@@ -4,12 +4,9 @@ from fastapi import FastAPI, Request
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.templating import Jinja2Templates
 from main import get_message, execute
-from essential_generators import DocumentGenerator
 from fastapi.staticfiles import StaticFiles
 
 from model import Query, MessageMeta
-
-gen = DocumentGenerator()
 app: FastAPI = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -25,7 +22,6 @@ async def read_root(request: Request, channel_link: str = 'https://t.me/meroshar
         limit=limit,
         by_user=by_user,
     )
-    print(query)
     result: List[MessageMeta] = await execute(query=query, block=get_message)
     return templates.TemplateResponse("messages.html", context={
         'request': request,
@@ -61,7 +57,6 @@ async def read_root(request: Request, channel_link: str = 'https://t.me/meroshar
                     stats = []
                 stats.append(msg)
                 counter[upper] = stats
-    print(counter)
     return templates.TemplateResponse("statistics.html", context={
         'request': request,
         "counters": counter

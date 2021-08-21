@@ -1,11 +1,19 @@
+from datetime import datetime
 from typing import List, Callable, Any
 
 from telethon import TelegramClient
 from telethon.tl import types
 from telethon.tl.types import PeerUser, InputMessagesFilterEmpty, Message
 
+import config
 from config import api_hash, api_id
 from model import Query, MessageMeta
+
+gen = None
+if config.is_mock:
+    from essential_generators import DocumentGenerator
+
+    gen = DocumentGenerator()
 
 
 async def get_message(query: Query, client: TelegramClient):
@@ -35,6 +43,11 @@ async def get_message(query: Query, client: TelegramClient):
 
 
 async def execute(block: Callable[[Query, TelegramClient], Any], query: Query):
+    if gen is not None:
+        return map(
+            lambda x: MessageMeta(author_id=x, full_message=gen.sentence(), time=datetime.now()),
+            range(0, 10)
+        )
     async with TelegramClient('anon', api_id, api_hash) as client:
         result = await block(query, client)
         return result
